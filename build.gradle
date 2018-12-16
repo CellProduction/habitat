@@ -1,0 +1,68 @@
+// Это файл для сборки проекта.
+// Мы используем Gradle.
+// Сборщик нужен для формирования конечного файла приложения,
+// подтягивания всех необходимых зависимостей, выполнения необходимых
+// для формирования приложения задач: запуска или игнорирования тестов,
+// удаленной установки на сервер и многих других целей.
+
+
+// Блок описания приложения:
+group = groupId // по большому счету это перфикс всего приложения, что то навроде namespace
+version = groupVersion // версия выпускаемого приложения, в далнейшем
+							// будет автоматически инкрементироваться по заданому сценарию при выпуске новой версии
+							// так же осуществляться будет одной из задач Gradle
+
+
+// Задача buildscript описывает необходимые для запуска скрипта сборки параметры
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+
+// Используемые для проекта Gradle плагины
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+// Репоситории поиска зависимостей, могут быть локальными, удаленными.
+// У нас исплоьлзуется по умолчанию
+repositories {
+	mavenCentral()
+}
+
+
+// Список зависимостей.
+// Указываются зависимости от библиотек, используемых в проекте
+// После указания, библиотеки подкачиваются из указанного выше репозитория и мы можем
+// использовать классы и функционал указаных библиотек при разработке.
+dependencies {
+	compile ('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+// Сборка артифактов, подцепит параметры из bootRun
+artifacts {
+	archives bootJar
+}
+
+
+// Запуск задачи по сборке проекта на локальной машине,
+// Указываем переменные окружения для запуска локально.
+bootRun {
+	environment "SERVER_PORT", "8085"
+//  mongo
+	environment "MONGODB_SERVER_HOST", "localhost"
+	environment "MONGODB_SERVER_PORT", "32768"
+//	environment "MONGODB_SERVER_USERNAME", "admin"
+//	environment "MONGODB_SERVER_PASSWORD", "admin"
+	environment "MONGODB_SERVER_DATABASE", "mapDB"
+}

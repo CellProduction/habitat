@@ -1,0 +1,30 @@
+# Конфигурационный файл приложения.
+# Тут будут описаны параметры spring-boot приложения и другие конфиги.
+# Можно использовать один файл, можно несколько.
+# Поскольку наши сервисы будут микро, то будем весь конфиг хранить в одном файле соответствующем сервису.
+---
+server:
+  port: ${SERVER_PORT} # Порт приложения
+---
+spring:
+  data:
+    mongodb: # Параметры подключения к СУБД и к БД
+      host: ${MONGODB_SERVER_HOST}
+      port: ${MONGODB_SERVER_PORT}
+#      username: ${MONGODB_SERVER_USERNAME}
+#      password: ${MONGODB_SERVER_PASSWORD}
+      database: ${MONGODB_SERVER_DATABASE}
+---
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: health
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  health:
+    mongo:
+      enabled: true
