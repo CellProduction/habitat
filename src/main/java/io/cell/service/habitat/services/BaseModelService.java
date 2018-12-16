@@ -1,4 +1,4 @@
-package io.cell.service.habitat.services.mongo;
+package io.cell.service.habitat.services;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
