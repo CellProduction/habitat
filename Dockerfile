@@ -1,5 +1,5 @@
 FROM openjdk:8
-ADD build/libs/habitat-0.0.1-SNAPSHOT.jar map-service.jar
+ADD build/libs/habitat-0.0.1-SNAPSHOT.jar habitat.jar
 EXPOSE 8085
 
 ENV SERVER_PORT 8085
@@ -9,4 +9,4 @@ ENV MONGODB_SERVER_USERNAME admin
 ENV MONGODB_SERVER_PASSWORD admin
 ENV MONGODB_SERVER_DATABASE mapDB
 
-ENTRYPOINT ["java", "-jar", "map-service.jar"]
+ENTRYPOINT ["java", "-jar", "habitat.jar"]
