@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Address {
   private UUID id;
-  private Region region;
+  private Integer regionIndex;
   private Integer x;
   private Integer Y;
 
@@ -17,12 +17,12 @@ public class Address {
     this.id = id;
   }
 
-  public Region getRegion() {
-    return region;
+  public Integer getRegionIndex() {
+    return regionIndex;
   }
 
-  public void setRegion(Region region) {
-    this.region = region;
+  public void setRegionIndex(Integer regionIndex) {
+    this.regionIndex = regionIndex;
   }
 
   public Integer getX() {
@@ -47,22 +47,22 @@ public class Address {
     if (o == null || getClass() != o.getClass()) return false;
     Address address = (Address) o;
     return id.equals(address.id) &&
-        Objects.equals(region, address.region) &&
+        Objects.equals(regionIndex, address.regionIndex) &&
         Objects.equals(x, address.x) &&
         Objects.equals(Y, address.Y);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, region, x, Y);
+    return Objects.hash(id, regionIndex, x, Y);
   }
 
   @Override
   public String toString() {
     return "Address{" +
-        "region=" + region +
-        " (" + x +
-        "-" + Y +
-        ")}";
+        regionIndex +
+        "." + x +
+        "." + Y +
+        "}";
   }
 }

@@ -1,10 +1,18 @@
 package io.cell.service.habitat.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Document
 public class Region {
+  @Id
   private UUID id;
+  @Indexed
+  private Integer index; // порядковый номемр региона
   private String name;
   private String description;
   private Integer movementRate;
@@ -16,6 +24,14 @@ public class Region {
 
   public void setId(UUID id) {
     this.id = id;
+  }
+
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
   }
 
   public String getName() {
@@ -56,6 +72,7 @@ public class Region {
     if (o == null || getClass() != o.getClass()) return false;
     Region region = (Region) o;
     return id.equals(region.id) &&
+        index.equals(region.index) &&
         Objects.equals(name, region.name) &&
         Objects.equals(description, region.description) &&
         Objects.equals(movementRate, region.movementRate) &&
@@ -64,6 +81,6 @@ public class Region {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, movementRate, defaultCellId);
+    return Objects.hash(id, index, name, description, movementRate, defaultCellId);
   }
 }
