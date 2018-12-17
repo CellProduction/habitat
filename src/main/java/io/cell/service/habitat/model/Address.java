@@ -60,9 +60,9 @@ public class Address {
   @Override
   public String toString() {
     return "Address{" +
-        "region=" + region +
-        " (" + x +
-        "-" + Y +
-        ")}";
+        region.getIndex() +
+        "." + x +
+        "." + Y +
+        "}";
   }
 }
