@@ -1,10 +1,17 @@
 package io.cell.service.habitat.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Document
 public class Region {
+  @Id
   private UUID id;
+  @Indexed
   private Integer index; // порядковый номемр региона
   private String name;
   private String description;

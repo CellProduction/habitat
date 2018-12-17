@@ -1,14 +1,18 @@
 package io.cell.service.habitat.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
+@Document
 public class Cell {
+  @Id
   private UUID id;
   private Address address;
   private Integer movementRate;
-  private Collection<Location> locations;
 
   public UUID getId() {
     return id;
@@ -34,14 +38,6 @@ public class Cell {
     this.movementRate = movementRate;
   }
 
-  public Collection<Location> getLocations() {
-    return locations;
-  }
-
-  public void setLocations(Collection<Location> locations) {
-    this.locations = locations;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -49,12 +45,11 @@ public class Cell {
     Cell cell = (Cell) o;
     return id.equals(cell.id) &&
         Objects.equals(address, cell.address) &&
-        Objects.equals(movementRate, cell.movementRate) &&
-        Objects.equals(locations, cell.locations);
+        Objects.equals(movementRate, cell.movementRate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, address, movementRate, locations);
+    return Objects.hash(id, address, movementRate);
   }
 }

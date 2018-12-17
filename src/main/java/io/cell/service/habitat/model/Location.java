@@ -1,13 +1,20 @@
 package io.cell.service.habitat.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Document
 public class Location {
+  @Id
   private UUID id;
+  @TextIndexed
   private String name;
   private String description;
-  private Region region;
+  private UUID cellId;
 
   public UUID getId() {
     return id;
@@ -33,12 +40,12 @@ public class Location {
     this.description = description;
   }
 
-  public Region getRegion() {
-    return region;
+  public UUID getCellId() {
+    return cellId;
   }
 
-  public void setRegion(Region region) {
-    this.region = region;
+  public void setCellId(UUID cellId) {
+    this.cellId = cellId;
   }
 
   @Override
@@ -48,12 +55,11 @@ public class Location {
     Location location = (Location) o;
     return id.equals(location.id) &&
         Objects.equals(name, location.name) &&
-        Objects.equals(description, location.description) &&
-        Objects.equals(region, location.region);
+        Objects.equals(description, location.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, region);
+    return Objects.hash(id, name, description);
   }
 }
