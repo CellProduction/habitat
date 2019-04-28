@@ -3,7 +3,6 @@ package io.cell.service.habitat.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -18,24 +17,27 @@ public class Cell {
     return id;
   }
 
-  public void setId(UUID id) {
+  public Cell setId(UUID id) {
     this.id = id;
+    return this;
   }
 
   public Address getAddress() {
     return address;
   }
 
-  public void setAddress(Address address) {
+  public Cell setAddress(Address address) {
     this.address = address;
+    return this;
   }
 
   public Integer getMovementRate() {
     return movementRate;
   }
 
-  public void setMovementRate(Integer movementRate) {
+  public Cell setMovementRate(Integer movementRate) {
     this.movementRate = movementRate;
+    return this;
   }
 
   @Override
