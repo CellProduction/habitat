@@ -32,7 +32,6 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
   private String password;
   private String databaseName;
 
-
   @Autowired
   public MongoDBConfiguration(Environment environment) {
     host = environment.getProperty("spring.data.mongodb.host");
@@ -57,16 +56,14 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
     builder.codecRegistry(fromRegistries(fromCodecs(new UuidCodec(UuidRepresentation.JAVA_LEGACY)), MongoClient.getDefaultCodecRegistry()));
     MongoClientOptions clientOptions = builder.build();
 
-    MongoClient mongoClient = null;
-    if (credential.isPresent()) {
-      mongoClient = new MongoClient(serverAddress, credential.get(), clientOptions);
-    } else {
-      mongoClient = new MongoClient(serverAddress, clientOptions);
-    }
+    MongoClient mongoClient;
+    mongoClient = credential.map(
+        mongoCredential -> new MongoClient(serverAddress, mongoCredential, clientOptions))
+        .orElseGet(() -> new MongoClient(serverAddress, clientOptions));
     return mongoClient;
   }
 
-  public Optional<MongoCredential> buildCredential() {
+  private Optional<MongoCredential> buildCredential() {
     MongoCredential credential = null;
     if (!StringUtils.isEmpty(user) && !StringUtils.isEmpty(password)) {
       credential = MongoCredential.createCredential(user, databaseName, password.toCharArray());

@@ -13,32 +13,36 @@ public class Address {
     return id;
   }
 
-  public void setId(UUID id) {
+  public Address setId(UUID id) {
     this.id = id;
+    return this;
   }
 
   public Integer getRegionIndex() {
     return regionIndex;
   }
 
-  public void setRegionIndex(Integer regionIndex) {
+  public Address setRegionIndex(Integer regionIndex) {
     this.regionIndex = regionIndex;
+    return this;
   }
 
   public Integer getX() {
     return x;
   }
 
-  public void setX(Integer x) {
+  public Address setX(Integer x) {
     this.x = x;
+    return this;
   }
 
   public Integer getY() {
     return Y;
   }
 
-  public void setY(Integer y) {
+  public Address setY(Integer y) {
     Y = y;
+    return this;
   }
 
   @Override
