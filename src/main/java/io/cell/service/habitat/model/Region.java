@@ -22,48 +22,54 @@ public class Region {
     return id;
   }
 
-  public void setId(UUID id) {
+  public Region setId(UUID id) {
     this.id = id;
+    return this;
   }
 
   public Integer getIndex() {
     return index;
   }
 
-  public void setIndex(Integer index) {
+  public Region setIndex(Integer index) {
     this.index = index;
+    return this;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public Region setName(String name) {
     this.name = name;
+    return this;
   }
 
   public String getDescription() {
     return description;
   }
 
-  public void setDescription(String description) {
+  public Region setDescription(String description) {
     this.description = description;
+    return this;
   }
 
   public Integer getMovementRate() {
     return movementRate;
   }
 
-  public void setMovementRate(Integer movementRate) {
+  public Region setMovementRate(Integer movementRate) {
     this.movementRate = movementRate;
+    return this;
   }
 
   public UUID getDefaultCellId() {
     return defaultCellId;
   }
 
-  public void setDefaultCellId(UUID defaultCellId) {
+  public Region setDefaultCellId(UUID defaultCellId) {
     this.defaultCellId = defaultCellId;
+    return this;
   }
 
   @Override

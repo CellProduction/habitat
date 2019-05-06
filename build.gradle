@@ -61,7 +61,7 @@ bootRun {
 	environment "SERVER_PORT", "8085"
 //  mongo
 	environment "MONGODB_SERVER_HOST", "localhost"
-	environment "MONGODB_SERVER_PORT", "32768"
+	environment "MONGODB_SERVER_PORT", "27017"
 //	environment "MONGODB_SERVER_USERNAME", "admin"
 //	environment "MONGODB_SERVER_PASSWORD", "admin"
 	environment "MONGODB_SERVER_DATABASE", "mapDB"
