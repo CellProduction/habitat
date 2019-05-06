@@ -1,13 +1,19 @@
 package io.cell.service.habitat.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Document
 public class Address {
+  @Id
   private UUID id;
   private Integer regionIndex;
   private Integer x;
-  private Integer Y;
+  private Integer y;
+
 
   public UUID getId() {
     return id;
@@ -37,11 +43,11 @@ public class Address {
   }
 
   public Integer getY() {
-    return Y;
+    return y;
   }
 
   public Address setY(Integer y) {
-    Y = y;
+    this.y = y;
     return this;
   }
 
@@ -50,15 +56,14 @@ public class Address {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Address address = (Address) o;
-    return id.equals(address.id) &&
-        Objects.equals(regionIndex, address.regionIndex) &&
-        Objects.equals(x, address.x) &&
-        Objects.equals(Y, address.Y);
+    return regionIndex.equals(address.regionIndex) &&
+        x.equals(address.x) &&
+        y.equals(address.y);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, regionIndex, x, Y);
+    return Objects.hash(regionIndex, x, y);
   }
 
   @Override
@@ -66,7 +71,7 @@ public class Address {
     return "Address{" +
         regionIndex +
         "." + x +
-        "." + Y +
+        "." + y +
         "}";
   }
 }

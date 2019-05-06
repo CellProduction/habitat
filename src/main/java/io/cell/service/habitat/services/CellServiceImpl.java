@@ -44,31 +44,47 @@ public class CellServiceImpl implements CellService {
   @Override
   public CompletableFuture<Boolean> create(Cell cell) {
     return CompletableFuture.supplyAsync(() -> {
-      if (cellRepository.existsById(cell.getId())) {
-        throw new ObjectAlreadyExistsException(String.format("Клетка с Id:%s уже создана", cell.getId().toString()));
+      boolean cellExists = cellRepository.exists(getCellExampleByCoordinates(cell.getAddress().getX(), cell.getAddress().getY()));
+      if (cellExists) {
+        String errorMessage = String.format(
+            "Cell with coordinates:[%d:%d] already exists",
+            cell.getAddress().getX(),
+            cell.getAddress().getY());
+        throw new ObjectAlreadyExistsException(errorMessage);
       }
       Cell createdCell = cellRepository.insert(cell);
-      LOG.debug("Cell Id:{} is created", createdCell.getId().toString());
+      LOG.debug("Cell with coordinates:[{}:{}] is created", createdCell.getAddress().getX(), createdCell.getAddress().getY());
       return true;
+    }).exceptionally(throwable -> {
+      LOG.error(throwable.getMessage());
+      return false;
     });
   }
 
   @Override
   public CompletableFuture<Boolean> update(Cell cell) {
     return CompletableFuture.supplyAsync(() -> {
-      if (!cellRepository.existsById(cell.getId())) {
-        throw new ObjectNotFoundException(String.format("Клетка с ID:%s не существует. Обновить не удалось.", cell.getId().toString()));
+      boolean cellExists = cellRepository.exists(getCellExampleByCoordinates(cell.getAddress().getX(), cell.getAddress().getY()));
+      if (!cellExists) {
+        String errorMessage = String.format(
+            "Cell with coordinates:[%d:%d] doesn't exist. Update failed.",
+            cell.getAddress().getX(),
+            cell.getAddress().getY());
+        throw new ObjectNotFoundException(errorMessage);
       }
       try {
         Cell targetCell = read(cell.getId()).get();
         entityConditionMapper.update(targetCell, cell);
         Cell updatedCell = cellRepository.save(targetCell);
-        LOG.debug("Обновленa клетка с Id:{}", updatedCell.getId().toString());
+        LOG.debug("Cell with coordinates:[{}:{}] is updated", updatedCell.getAddress().getX(), updatedCell.getAddress().getY());
       } catch (Exception e) {
-        LOG.error("Cell Id:{} is not updated", cell.getId().toString(), e);
+        LOG.error("Cell with coordinates:[{}:{}] is not updated", cell.getAddress().getX(), cell.getAddress().getY(), e);
         return false;
       }
       return true;
+    }).exceptionally(throwable -> {
+      LOG.error(throwable.getMessage());
+      return false;
     });
   }
 
@@ -86,18 +102,39 @@ public class CellServiceImpl implements CellService {
 
   @Override
   public CompletableFuture<Boolean> delete(Cell cell) {
-    return delete(cell.getId());
+    return CompletableFuture.supplyAsync(() -> {
+      boolean cellExists = cellRepository.exists(getCellExampleByCoordinates(cell.getAddress().getX(), cell.getAddress().getY()));
+      if (!cellExists) {
+        String errorMessage = String.format(
+            "Cell with coordinates:[%d:%d] doesn't exist. Deletion failed.",
+            cell.getAddress().getX(),
+            cell.getAddress().getY());
+        throw new ObjectAlreadyExistsException(errorMessage);
+      }
+      cellRepository.delete(cell);
+      LOG.debug("Cell with coordinates:[{}:{}] is deleted", cell.getAddress().getX(), cell.getAddress().getY());
+      return true;
+    }).exceptionally(throwable -> {
+      LOG.error(throwable.getMessage());
+      return false;
+    });
   }
 
   @Override
   public CompletableFuture<Cell> read(UUID id) {
     return CompletableFuture.supplyAsync(() -> {
       if (!cellRepository.existsById(id)) {
-        throw new ObjectNotFoundException(String.format("Клетка с ID:%s не существует. Прочитать не удалось.", id.toString()));
+        String errorMessage = String.format(
+            "Cell with ID:%s doesn't exist. Could not read.",
+            id.toString());
+        throw new ObjectNotFoundException(errorMessage);
       }
       Cell cell = cellRepository.findById(id).orElse(null);
       LOG.debug("Cell ID:{} is found", id.toString());
       return cell;
+    }).exceptionally(throwable -> {
+      LOG.error(throwable.getMessage());
+      return null;
     });
   }
 

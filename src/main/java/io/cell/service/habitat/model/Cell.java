@@ -54,4 +54,12 @@ public class Cell {
   public int hashCode() {
     return Objects.hash(id, address, movementRate);
   }
+
+  @Override
+  public String toString() {
+    return "Cell{" +
+        "address=" + address +
+        ", movementRate=" + movementRate +
+        '}';
+  }
 }
