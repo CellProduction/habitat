@@ -2,7 +2,9 @@ package io.cell.service.habitat.init.map.v1;
 
 import io.cell.service.habitat.model.Address;
 import io.cell.service.habitat.model.Cell;
+import io.cell.service.habitat.model.CellFeatures;
 import io.cell.service.habitat.model.Region;
+import io.cell.service.habitat.repositories.CellFeaturesRepository;
 import io.cell.service.habitat.repositories.RegionRepository;
 import io.cell.service.habitat.services.CellService;
 import javafx.util.Pair;
@@ -37,16 +39,18 @@ public class InitDatabaseService_V1 {
   private static final int INITIAL_MAX_X = 40;
   private static final int INITIAL_MAX_Y = 30;
 
-  private static final int DEFAULT_MOVE_RATE = 100;
+  private static final int DEFAULT_MOVEMENT_RATE = 100;
 
   private Map<Pair, Integer> regionCanvas = new HashMap<>();
 
   private CellService cellService;
+  private CellFeaturesRepository featuresRepository;
   private RegionRepository regionRepository;
 
   @Autowired
-  public InitDatabaseService_V1(CellService cellService, RegionRepository regionRepository) {
+  public InitDatabaseService_V1(CellService cellService, CellFeaturesRepository featuresRepository, RegionRepository regionRepository) {
     this.cellService = cellService;
+    this.featuresRepository = featuresRepository;
     this.regionRepository = regionRepository;
   }
 
@@ -69,9 +73,17 @@ public class InitDatabaseService_V1 {
             .setY(j);
         Cell cell = new Cell()
             .setId(UUID.randomUUID())
-            .setAddress(address)
-            .setMovementRate(DEFAULT_MOVE_RATE);
+            .setAddress(address);
         cellService.create(cell);
+
+        CellFeatures features = new CellFeatures()
+            .setId(UUID.randomUUID())
+            .setAddress(address)
+            .setMovable(true)
+            .setFlyable(true)
+            .setMovementRate(DEFAULT_MOVEMENT_RATE)
+            .setFlightRate(DEFAULT_MOVEMENT_RATE);
+        featuresRepository.save(features);
       }
     }
   }
