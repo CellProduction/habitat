@@ -3,7 +3,6 @@ package io.cell.service.habitat.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.File;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -21,8 +20,8 @@ public class CellFeatures {
   private boolean movable;
   private int flightRate;
   private boolean flyable;
-  private File presentationImage;
-  private File backgroundImage;
+  private String presentationImage;
+  private String backgroundImage;
 
   public UUID getId() {
     return id;
@@ -96,20 +95,20 @@ public class CellFeatures {
     return this;
   }
 
-  public File getPresentationImage() {
+  public String getPresentationImage() {
     return presentationImage;
   }
 
-  public CellFeatures setPresentationImage(File presentationImage) {
+  public CellFeatures setPresentationImage(String presentationImage) {
     this.presentationImage = presentationImage;
     return this;
   }
 
-  public File getBackgroundImage() {
+  public String getBackgroundImage() {
     return backgroundImage;
   }
 
-  public CellFeatures setBackgroundImage(File backgroundImage) {
+  public CellFeatures setBackgroundImage(String backgroundImage) {
     this.backgroundImage = backgroundImage;
     return this;
   }

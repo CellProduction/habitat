@@ -28,3 +28,9 @@ management:
   health:
     mongo:
       enabled: true
+---
+init:
+  db:
+    enable: true
+    images:
+      filepath: ${IMAGES_FILEPATH}

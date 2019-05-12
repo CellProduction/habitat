@@ -65,4 +65,6 @@ bootRun {
 //	environment "MONGODB_SERVER_USERNAME", "admin"
 //	environment "MONGODB_SERVER_PASSWORD", "admin"
 	environment "MONGODB_SERVER_DATABASE", "mapDB"
+
+	environment "IMAGES_FILEPATH", "D:\\NoWork\\tmp"
 }
