@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.util.StringUtils;
 
 import java.util.Optional;
@@ -74,5 +75,10 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
   @Bean
   public EntityConditionMapper entityConditionMapper() {
     return new EntityConditionMapper();
+  }
+
+  @Bean
+  public GridFsTemplate gridFsTemplate() throws Exception {
+    return new GridFsTemplate(mongoDbFactory(), mappingMongoConverter());
   }
 }

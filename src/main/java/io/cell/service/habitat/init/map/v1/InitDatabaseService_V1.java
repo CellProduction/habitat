@@ -9,9 +9,17 @@ import io.cell.service.habitat.repositories.RegionRepository;
 import io.cell.service.habitat.services.CellService;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -19,7 +27,11 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 
 @Service
+@PropertySource(value = "classpath:application.yaml", ignoreResourceNotFound = true)
 public class InitDatabaseService_V1 {
+
+  @Value("${init.db.images.filepath}")
+  private String filepath;
 
   //Регионы
   private static final int REGION_1 = 1;
@@ -41,14 +53,19 @@ public class InitDatabaseService_V1 {
 
   private static final int DEFAULT_MOVEMENT_RATE = 100;
 
+  private static final String FILE_FORMAT = "jpg";
+  private static final String FILE_CONTENT_TYPE = "image/jpeg";
+
   private Map<Pair, Integer> regionCanvas = new HashMap<>();
 
+  private GridFsTemplate gridFsTemplate;
   private CellService cellService;
   private CellFeaturesRepository featuresRepository;
   private RegionRepository regionRepository;
 
   @Autowired
-  public InitDatabaseService_V1(CellService cellService, CellFeaturesRepository featuresRepository, RegionRepository regionRepository) {
+  public InitDatabaseService_V1(GridFsTemplate gridFsTemplate, CellService cellService, CellFeaturesRepository featuresRepository, RegionRepository regionRepository) {
+    this.gridFsTemplate = gridFsTemplate;
     this.cellService = cellService;
     this.featuresRepository = featuresRepository;
     this.regionRepository = regionRepository;
@@ -71,21 +88,43 @@ public class InitDatabaseService_V1 {
             .setRegionIndex(getRegion(i, j))
             .setX(i)
             .setY(j);
-        Cell cell = new Cell()
-            .setId(UUID.randomUUID())
-            .setAddress(address);
-        cellService.create(cell);
-
-        CellFeatures features = new CellFeatures()
-            .setId(UUID.randomUUID())
-            .setAddress(address)
-            .setMovable(true)
-            .setFlyable(true)
-            .setMovementRate(DEFAULT_MOVEMENT_RATE)
-            .setFlightRate(DEFAULT_MOVEMENT_RATE);
-        featuresRepository.save(features);
+        createCell(address);
+        storeCellBackgroundImage(i, j);
+        createCellFeature(address);
       }
     }
+  }
+
+  private void createCell(Address address) {
+    Cell cell = new Cell()
+        .setId(UUID.randomUUID())
+        .setAddress(address);
+    cellService.create(cell);
+  }
+
+  private void storeCellBackgroundImage(Integer x, Integer y) {
+    try (InputStream imageInputStream = Files.newInputStream(
+        new File(fullFilename(x, y)).toPath(),
+        StandardOpenOption.READ)) {
+      gridFsTemplate.store(
+          imageInputStream,
+          filename(x, y),
+          FILE_CONTENT_TYPE);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void createCellFeature(Address address) {
+    CellFeatures features = new CellFeatures()
+        .setId(UUID.randomUUID())
+        .setAddress(address)
+        .setMovable(true)
+        .setFlyable(true)
+        .setMovementRate(DEFAULT_MOVEMENT_RATE)
+        .setFlightRate(DEFAULT_MOVEMENT_RATE)
+        .setBackgroundImage(filename(address.getX(), address.getY()));
+    featuresRepository.save(features);
   }
 
   private Integer getRegion(Integer x, Integer y) {
@@ -180,5 +219,16 @@ public class InitDatabaseService_V1 {
     IntStream.rangeClosed(31, 40).forEach(x ->
         IntStream.rangeClosed(21, 30).forEach(y ->
             this.regionCanvas.put(new Pair(x, y), REGION_12)));
+  }
+
+  private String filename(Integer x, Integer y) {
+    return "v1_" + x + "_" + y
+        + "." + FILE_FORMAT;
+  }
+
+  private String fullFilename(Integer x, Integer y) {
+    return filepath
+        + File.separatorChar
+        + filename(x, y);
   }
 }
