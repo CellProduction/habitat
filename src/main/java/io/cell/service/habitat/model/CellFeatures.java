@@ -16,10 +16,10 @@ public class CellFeatures {
   private Address address;
   private ZonedDateTime startDateTime;
   private ZonedDateTime endDateTime;
-  private int movementRate;
-  private boolean movable;
-  private int flightRate;
-  private boolean flyable;
+  private Integer movementRate;
+  private Boolean movable;
+  private Integer flightRate;
+  private Boolean flyable;
   private String presentationImage;
   private String backgroundImage;
 
@@ -68,11 +68,11 @@ public class CellFeatures {
     return this;
   }
 
-  public boolean isMovable() {
+  public Boolean isMovable() {
     return movable;
   }
 
-  public CellFeatures setMovable(boolean movable) {
+  public CellFeatures setMovable(Boolean movable) {
     this.movable = movable;
     return this;
   }
@@ -86,11 +86,11 @@ public class CellFeatures {
     return this;
   }
 
-  public boolean isFlyable() {
+  public Boolean isFlyable() {
     return flyable;
   }
 
-  public CellFeatures setFlyable(boolean flyable) {
+  public CellFeatures setFlyable(Boolean flyable) {
     this.flyable = flyable;
     return this;
   }
@@ -120,9 +120,9 @@ public class CellFeatures {
 
     CellFeatures that = (CellFeatures) o;
 
-    if (movementRate != that.movementRate) return false;
+    if (!movementRate.equals(that.movementRate)) return false;
     if (movable != that.movable) return false;
-    if (flightRate != that.flightRate) return false;
+    if (!flightRate.equals(that.flightRate)) return false;
     if (flyable != that.flyable) return false;
     if (!id.equals(that.id)) return false;
     if (startDateTime != null ? !startDateTime.equals(that.startDateTime) : that.startDateTime != null) return false;

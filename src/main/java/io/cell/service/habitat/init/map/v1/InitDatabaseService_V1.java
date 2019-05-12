@@ -4,13 +4,17 @@ import io.cell.service.habitat.model.Address;
 import io.cell.service.habitat.model.Cell;
 import io.cell.service.habitat.model.CellFeatures;
 import io.cell.service.habitat.model.Region;
-import io.cell.service.habitat.repositories.CellFeaturesRepository;
 import io.cell.service.habitat.repositories.RegionRepository;
+import io.cell.service.habitat.services.CellFeaturesService;
 import io.cell.service.habitat.services.CellService;
+import io.cell.service.habitat.services.CellServiceImpl;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +33,7 @@ import java.util.stream.IntStream;
 @Service
 @PropertySource(value = "classpath:application.yaml", ignoreResourceNotFound = true)
 public class InitDatabaseService_V1 {
-
-  @Value("${init.db.images.filepath}")
-  private String filepath;
+  private static final Logger LOG = LoggerFactory.getLogger(CellServiceImpl.class);
 
   //Регионы
   private static final int REGION_1 = 1;
@@ -56,23 +58,31 @@ public class InitDatabaseService_V1 {
   private static final String FILE_FORMAT = "jpg";
   private static final String FILE_CONTENT_TYPE = "image/jpeg";
 
+  @Value("${init.db.enable}")
+  private boolean initEnable;
+  @Value("${init.db.images.filepath}")
+  private String filepath;
+
   private Map<Pair, Integer> regionCanvas = new HashMap<>();
 
   private GridFsTemplate gridFsTemplate;
   private CellService cellService;
-  private CellFeaturesRepository featuresRepository;
+  private CellFeaturesService featuresService;
   private RegionRepository regionRepository;
 
   @Autowired
-  public InitDatabaseService_V1(GridFsTemplate gridFsTemplate, CellService cellService, CellFeaturesRepository featuresRepository, RegionRepository regionRepository) {
+  public InitDatabaseService_V1(GridFsTemplate gridFsTemplate, CellService cellService, CellFeaturesService featuresService, RegionRepository regionRepository) {
     this.gridFsTemplate = gridFsTemplate;
     this.cellService = cellService;
-    this.featuresRepository = featuresRepository;
+    this.featuresService = featuresService;
     this.regionRepository = regionRepository;
   }
 
   @PostConstruct
   public void init() {
+    if (!initEnable) {
+      return;
+    }
     fillRegions(); // создать регионы
     createCells(); // создать клетки
   }
@@ -103,15 +113,17 @@ public class InitDatabaseService_V1 {
   }
 
   private void storeCellBackgroundImage(Integer x, Integer y) {
-    try (InputStream imageInputStream = Files.newInputStream(
-        new File(fullFilename(x, y)).toPath(),
-        StandardOpenOption.READ)) {
-      gridFsTemplate.store(
-          imageInputStream,
-          filename(x, y),
-          FILE_CONTENT_TYPE);
+    String filename = filename(x, y);
+    try (InputStream imageInputStream = Files.newInputStream(new File(fullFilename(x, y)).toPath(), StandardOpenOption.READ)) {
+      BasicQuery existsQuery = new BasicQuery("{ filename : \'" + filename + "\' }");
+      boolean fileExists = gridFsTemplate.findOne(existsQuery) != null;
+      if (fileExists) {
+        LOG.warn("File {} already exists.", filename);
+        return;
+      }
+      gridFsTemplate.store(imageInputStream, filename, FILE_CONTENT_TYPE);
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.error(e.getMessage(), e);
     }
   }
 
@@ -124,7 +136,7 @@ public class InitDatabaseService_V1 {
         .setMovementRate(DEFAULT_MOVEMENT_RATE)
         .setFlightRate(DEFAULT_MOVEMENT_RATE)
         .setBackgroundImage(filename(address.getX(), address.getY()));
-    featuresRepository.save(features);
+    featuresService.create(features);
   }
 
   private Integer getRegion(Integer x, Integer y) {

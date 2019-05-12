@@ -31,6 +31,6 @@ management:
 ---
 init:
   db:
-    enable: true
+    enable: ${INIT_DB_ENABLE}
     images:
       filepath: ${IMAGES_FILEPATH}
