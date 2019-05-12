@@ -31,7 +31,7 @@ public class CellServiceImpl implements CellService {
   }
 
   @Override
-  public CompletableFuture<Cell> getCellByCoordinate(Integer X, Integer Y) {
+  public CompletableFuture<Cell> getCellByCoordinates(Integer X, Integer Y) {
     return CompletableFuture.supplyAsync(() -> {
       Optional<Cell> foundCell = cellRepository.findOne(getCellExampleByCoordinates(X, Y));
       if (!foundCell.isPresent()) {

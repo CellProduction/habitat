@@ -6,6 +6,6 @@ import java.util.concurrent.CompletableFuture;
 
 public interface CellService extends BaseModelService<Cell> {
 
-  CompletableFuture<Cell> getCellByCoordinate(Integer X, Integer Y);
+  CompletableFuture<Cell> getCellByCoordinates(Integer X, Integer Y);
 
 }
