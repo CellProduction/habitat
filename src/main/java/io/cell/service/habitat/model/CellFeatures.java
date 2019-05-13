@@ -59,11 +59,11 @@ public class CellFeatures {
     return this;
   }
 
-  public int getMovementRate() {
+  public Integer getMovementRate() {
     return movementRate;
   }
 
-  public CellFeatures setMovementRate(int movementRate) {
+  public CellFeatures setMovementRate(Integer movementRate) {
     this.movementRate = movementRate;
     return this;
   }
@@ -77,11 +77,11 @@ public class CellFeatures {
     return this;
   }
 
-  public int getFlightRate() {
+  public Integer getFlightRate() {
     return flightRate;
   }
 
-  public CellFeatures setFlightRate(int flightRate) {
+  public CellFeatures setFlightRate(Integer flightRate) {
     this.flightRate = flightRate;
     return this;
   }
