@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -31,14 +32,20 @@ public class CellServiceImpl implements CellService {
   }
 
   @Override
-  public CompletableFuture<Cell> getCellByCoordinates(Integer X, Integer Y) {
+  public CompletableFuture<Cell> getCellByCoordinates(Integer x, Integer y) {
     return CompletableFuture.supplyAsync(() -> {
-      Optional<Cell> foundCell = cellRepository.findOne(getCellExampleByCoordinates(X, Y));
+      Optional<Cell> foundCell = cellRepository.findOne(getCellExampleByCoordinates(x, y));
       if (!foundCell.isPresent()) {
-        LOG.warn("Cell with coordinates:[{}:{}] not found", X, Y);
+        LOG.warn("Cell with coordinates:[{}:{}] not found", x, y);
       }
       return foundCell.orElse(null);
     });
+  }
+
+  @Override
+  public CompletableFuture<List<Cell>> getArea(Integer x0, Integer y0, Integer xN, Integer yN) {
+    return CompletableFuture.completedFuture(
+        cellRepository.findAllByAddress_XBetweenAndAddress_YBetween(x0 - 1, xN + 1, y0 - 1, yN + 1));
   }
 
   @Override

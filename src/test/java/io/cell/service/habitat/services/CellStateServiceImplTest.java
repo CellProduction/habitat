@@ -1,13 +1,16 @@
 package io.cell.service.habitat.services;
 
-import io.cell.service.habitat.dto.client.CurrentCellState;
+import io.cell.service.habitat.dto.client.CellState;
 import io.cell.service.habitat.model.Address;
 import io.cell.service.habitat.model.Cell;
 import io.cell.service.habitat.model.CellFeatures;
+import io.cell.service.habitat.utils.CellStateBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.UUID;
@@ -18,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class CurrentCellStateServiceImplTest {
+public class CellStateServiceImplTest {
 
   private static final UUID TEST_ADDRESS_ID = UUID.randomUUID();
   private static final UUID TEST_CELL_ID = UUID.randomUUID();
@@ -28,8 +31,10 @@ public class CurrentCellStateServiceImplTest {
   private CellService cellService;
   @MockBean
   private CellFeaturesService featuresService;
+  @Mock
+  private GridFsTemplate gridFsTemplate;
 
-  private CurrentCellStateServiceImpl stateService;
+  private CellStateServiceImpl stateService;
 
   @Before
   public void init() {
@@ -38,14 +43,14 @@ public class CurrentCellStateServiceImplTest {
     when(cellService.getCellByCoordinates(1, 1)).thenReturn(CompletableFuture.completedFuture(testCell));
     when(featuresService.getCellFeaturesByCoordinates(1, 1)).thenReturn(CompletableFuture.completedFuture(features));
 
-    stateService = new CurrentCellStateServiceImpl(cellService, featuresService);
+    stateService = new CellStateServiceImpl(cellService, featuresService, new CellStateBuilder(), gridFsTemplate);
   }
 
   @Test
   public void getCellStateByCoordinates() {
     Cell testCell = getTestCell();
     CellFeatures testFeatures = getTestCellFeatures();
-    CurrentCellState cellState = stateService.getCellStateByCoordinates(1, 1).join();
+    CellState cellState = stateService.getCellStateByCoordinates(1, 1).join();
 
     assertNotNull(cellState);
     assertEquals(cellState.getCellId(), testCell.getId());

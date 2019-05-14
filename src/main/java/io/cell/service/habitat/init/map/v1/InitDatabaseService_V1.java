@@ -30,6 +30,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+
 @Service
 @PropertySource(value = "classpath:application.yaml", ignoreResourceNotFound = true)
 public class InitDatabaseService_V1 {
@@ -54,9 +56,7 @@ public class InitDatabaseService_V1 {
   private static final int INITIAL_MAX_Y = 30;
 
   private static final int DEFAULT_MOVEMENT_RATE = 100;
-
   private static final String FILE_FORMAT = "jpg";
-  private static final String FILE_CONTENT_TYPE = "image/jpeg";
 
   @Value("${init.db.enable}")
   private boolean initEnable;
@@ -121,7 +121,7 @@ public class InitDatabaseService_V1 {
         LOG.warn("File {} already exists.", filename);
         return;
       }
-      gridFsTemplate.store(imageInputStream, filename, FILE_CONTENT_TYPE);
+      gridFsTemplate.store(imageInputStream, filename, IMAGE_JPEG_VALUE);
     } catch (IOException e) {
       LOG.error(e.getMessage(), e);
     }
