@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -39,6 +40,12 @@ public class CellFeaturesServiceImpl implements CellFeaturesService {
       }
       return foundCellFeatures.orElse(null);
     });
+  }
+
+  @Override
+  public CompletableFuture<List<CellFeatures>> getArea(Integer x0, Integer y0, Integer xN, Integer yN) {
+    return CompletableFuture.completedFuture(
+        featuresRepository.findAllByAddress_XBetweenAndAddress_YBetween(x0 - 1, xN + 1, y0 - 1, yN + 1));
   }
 
   @Override

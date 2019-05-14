@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * DTO объект объеденяющий общие свойства клетки и ее переменные особенности на текущий момент
  */
-public class CurrentCellState implements Comparable<CurrentCellState>{
+public class CellState implements Comparable<CellState>{
   private UUID cellId;
   private Address address;
   private Integer movementRate;
@@ -22,7 +22,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return cellId;
   }
 
-  public CurrentCellState setCellId(UUID cellId) {
+  public CellState setCellId(UUID cellId) {
     this.cellId = cellId;
     return this;
   }
@@ -31,7 +31,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return address;
   }
 
-  public CurrentCellState setAddress(Address address) {
+  public CellState setAddress(Address address) {
     this.address = address;
     return this;
   }
@@ -40,7 +40,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return movementRate;
   }
 
-  public CurrentCellState setMovementRate(Integer movementRate) {
+  public CellState setMovementRate(Integer movementRate) {
     this.movementRate = movementRate;
     return this;
   }
@@ -49,7 +49,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return movable;
   }
 
-  public CurrentCellState setMovable(Boolean movable) {
+  public CellState setMovable(Boolean movable) {
     this.movable = movable;
     return this;
   }
@@ -58,7 +58,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return flightRate;
   }
 
-  public CurrentCellState setFlightRate(Integer flightRate) {
+  public CellState setFlightRate(Integer flightRate) {
     this.flightRate = flightRate;
     return this;
   }
@@ -67,7 +67,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return flyable;
   }
 
-  public CurrentCellState setFlyable(Boolean flyable) {
+  public CellState setFlyable(Boolean flyable) {
     this.flyable = flyable;
     return this;
   }
@@ -76,7 +76,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return presentationImage;
   }
 
-  public CurrentCellState setPresentationImage(String presentationImage) {
+  public CellState setPresentationImage(String presentationImage) {
     this.presentationImage = presentationImage;
     return this;
   }
@@ -85,7 +85,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     return backgroundImage;
   }
 
-  public CurrentCellState setBackgroundImage(String backgroundImage) {
+  public CellState setBackgroundImage(String backgroundImage) {
     this.backgroundImage = backgroundImage;
     return this;
   }
@@ -95,7 +95,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    CurrentCellState that = (CurrentCellState) o;
+    CellState that = (CellState) o;
 
     if (!cellId.equals(that.cellId)) return false;
     if (!address.equals(that.address)) return false;
@@ -124,7 +124,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
 
   @Override
   public String toString() {
-    return "CurrentCellState{" +
+    return "CellState{" +
         "cellId=" + cellId +
         ", address=" + address +
         ", movementRate=" + movementRate +
@@ -137,7 +137,7 @@ public class CurrentCellState implements Comparable<CurrentCellState>{
   }
 
   @Override
-  public int compareTo(CurrentCellState cellState) {
+  public int compareTo(CellState cellState) {
     if (cellState.getAddress() == null) {
       return 1;
     }

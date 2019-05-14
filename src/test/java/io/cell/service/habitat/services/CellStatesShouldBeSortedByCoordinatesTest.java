@@ -1,6 +1,6 @@
 package io.cell.service.habitat.services;
 
-import io.cell.service.habitat.dto.client.CurrentCellState;
+import io.cell.service.habitat.dto.client.CellState;
 import io.cell.service.habitat.model.Address;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,16 +17,16 @@ public class CellStatesShouldBeSortedByCoordinatesTest {
 
   @Test
   public void statesShouldBeSorted() {
-    CurrentCellState cellState1 = new CurrentCellState().setCellId(UUID.randomUUID()).setAddress(getTestAddress(1, 1));
-    CurrentCellState cellState2 = new CurrentCellState().setCellId(UUID.randomUUID()).setAddress(getTestAddress(2, 1));
-    CurrentCellState cellState3 = new CurrentCellState().setCellId(UUID.randomUUID()).setAddress(getTestAddress(1, 3));
+    CellState cellState1 = new CellState().setCellId(UUID.randomUUID()).setAddress(getTestAddress(1, 1));
+    CellState cellState2 = new CellState().setCellId(UUID.randomUUID()).setAddress(getTestAddress(2, 1));
+    CellState cellState3 = new CellState().setCellId(UUID.randomUUID()).setAddress(getTestAddress(1, 3));
 
-    Set<CurrentCellState> cellStates = new TreeSet<>();
+    Set<CellState> cellStates = new TreeSet<>();
     cellStates.add(cellState1);
     cellStates.add(cellState2);
     cellStates.add(cellState3);
 
-    CurrentCellState[] cellStatesArray = cellStates.toArray(new CurrentCellState[3]);
+    CellState[] cellStatesArray = cellStates.toArray(new CellState[3]);
     assertEquals(cellStatesArray[0], cellState1);
     assertEquals(cellStatesArray[1], cellState3);
     assertEquals(cellStatesArray[2], cellState2);
