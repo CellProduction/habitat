@@ -9,4 +9,9 @@ ENV MONGODB_SERVER_USERNAME admin
 ENV MONGODB_SERVER_PASSWORD admin
 ENV MONGODB_SERVER_DATABASE mapDB
 
+ENV INIT_DB_ENABLE false
+ENV IMAGES_FILEPATH /usr/share/images
+
+VOLUME /usr/share
+
 ENTRYPOINT ["java", "-jar", "habitat.jar"]
