@@ -18,7 +18,7 @@ spring:
 management:
   endpoints:
     web:
-      base-path: /
+      base-path: /habitat
       path-mapping:
         health: health
   endpoint:
