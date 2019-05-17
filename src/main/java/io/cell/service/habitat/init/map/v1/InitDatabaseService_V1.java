@@ -64,7 +64,7 @@ public class InitDatabaseService_V1 {
   private String filepath;
   private boolean loadBackGroundImages;
 
-  private Map<Pair, Integer> regionCanvas = new HashMap<>();
+  private Map<String, Integer> regionCanvas = new HashMap<>();
 
   private GridFsTemplate gridFsTemplate;
   private CellService cellService;
@@ -145,7 +145,7 @@ public class InitDatabaseService_V1 {
   }
 
   private Integer getRegion(Integer x, Integer y) {
-    return Optional.ofNullable(regionCanvas.get(new Pair(x, y)))
+    return Optional.ofNullable(regionCanvas.get(x + "_" + y))
         .orElse(DEFAULT_REGION);
   }
 
@@ -158,84 +158,84 @@ public class InitDatabaseService_V1 {
         .setIndex(REGION_1));
     IntStream.rangeClosed(1, 10).forEach(x ->
         IntStream.rangeClosed(1, 10).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_1)));
+            this.regionCanvas.put(x + "_" + y, REGION_1)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_2));
     IntStream.rangeClosed(11, 20).forEach(x ->
         IntStream.rangeClosed(1, 10).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_2)));
+            this.regionCanvas.put(x + "_" + y, REGION_2)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_3));
     IntStream.rangeClosed(21, 30).forEach(x ->
         IntStream.rangeClosed(1, 10).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_3)));
+            this.regionCanvas.put(x + "_" + y, REGION_3)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_4));
     IntStream.rangeClosed(31, 40).forEach(x ->
         IntStream.rangeClosed(1, 10).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_4)));
+            this.regionCanvas.put(x + "_" + y, REGION_4)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_5));
     IntStream.rangeClosed(1, 10).forEach(x ->
         IntStream.rangeClosed(11, 20).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_5)));
+            this.regionCanvas.put(x + "_" + y, REGION_5)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_6));
     IntStream.rangeClosed(11, 20).forEach(x ->
         IntStream.rangeClosed(11, 20).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_6)));
+            this.regionCanvas.put(x + "_" + y, REGION_6)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_7));
     IntStream.rangeClosed(21, 30).forEach(x ->
         IntStream.rangeClosed(11, 20).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_7)));
+            this.regionCanvas.put(x + "_" + y, REGION_7)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_8));
     IntStream.rangeClosed(31, 40).forEach(x ->
         IntStream.rangeClosed(11, 20).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_8)));
+            this.regionCanvas.put(x + "_" + y, REGION_8)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_9));
     IntStream.rangeClosed(1, 10).forEach(x ->
         IntStream.rangeClosed(21, 30).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_9)));
+            this.regionCanvas.put(x + "_" + y, REGION_9)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_10));
     IntStream.rangeClosed(11, 20).forEach(x ->
         IntStream.rangeClosed(21, 30).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_10)));
+            this.regionCanvas.put(x + "_" + y, REGION_10)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_11));
     IntStream.rangeClosed(21, 30).forEach(x ->
         IntStream.rangeClosed(21, 30).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_11)));
+            this.regionCanvas.put(x + "_" + y, REGION_11)));
 
     regionRepository.save(new Region()
         .setId(UUID.randomUUID())
         .setIndex(REGION_12));
     IntStream.rangeClosed(31, 40).forEach(x ->
         IntStream.rangeClosed(21, 30).forEach(y ->
-            this.regionCanvas.put(new Pair(x, y), REGION_12)));
+            this.regionCanvas.put(x + "_" + y, REGION_12)));
   }
 
   private String filename(Integer x, Integer y) {
