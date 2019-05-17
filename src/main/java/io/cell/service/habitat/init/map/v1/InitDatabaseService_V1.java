@@ -62,6 +62,7 @@ public class InitDatabaseService_V1 {
   private boolean initEnable;
   @Value("${init.db.images.filepath}")
   private String filepath;
+  private boolean loadBackGroundImages;
 
   private Map<Pair, Integer> regionCanvas = new HashMap<>();
 
@@ -76,6 +77,7 @@ public class InitDatabaseService_V1 {
     this.cellService = cellService;
     this.featuresService = featuresService;
     this.regionRepository = regionRepository;
+    this.loadBackGroundImages = Optional.ofNullable(filepath).isPresent();
   }
 
   @PostConstruct
@@ -113,6 +115,9 @@ public class InitDatabaseService_V1 {
   }
 
   private void storeCellBackgroundImage(Integer x, Integer y) {
+    if (!loadBackGroundImages) {
+      return;
+    }
     String filename = filename(x, y);
     try (InputStream imageInputStream = Files.newInputStream(new File(fullFilename(x, y)).toPath(), StandardOpenOption.READ)) {
       BasicQuery existsQuery = new BasicQuery("{ filename : \'" + filename + "\' }");

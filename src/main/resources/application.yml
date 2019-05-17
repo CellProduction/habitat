@@ -12,8 +12,8 @@ spring:
       host: ${MONGODB_SERVER_HOST}
       port: ${MONGODB_SERVER_PORT}
       database: ${MONGODB_SERVER_DATABASE}
-#      username: ${MONGODB_SERVER_USERNAME}
-#      password: ${MONGODB_SERVER_PASSWORD}
+      username: ${MONGODB_SERVER_USERNAME}
+      password: ${MONGODB_SERVER_PASSWORD}
 ---
 management:
   endpoints:
