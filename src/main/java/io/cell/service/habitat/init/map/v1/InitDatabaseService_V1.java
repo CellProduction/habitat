@@ -32,7 +32,7 @@ import java.util.stream.IntStream;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @Service
-@PropertySource(value = "classpath:application.yaml", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:application.yml", ignoreResourceNotFound = true)
 public class InitDatabaseService_V1 {
   private static final Logger LOG = LoggerFactory.getLogger(CellServiceImpl.class);
 
