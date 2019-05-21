@@ -76,7 +76,6 @@ public class InitDatabaseService_V1 {
     this.cellService = cellService;
     this.featuresService = featuresService;
     this.regionRepository = regionRepository;
-    this.loadBackGroundImages = Optional.ofNullable(filepath).isPresent();
   }
 
   @PostConstruct
@@ -84,6 +83,7 @@ public class InitDatabaseService_V1 {
     if (!initEnable) {
       return;
     }
+    this.loadBackGroundImages = Optional.ofNullable(filepath).isPresent();
     fillRegions(); // создать регионы
     createCells(); // создать клетки
   }
