@@ -32,7 +32,7 @@ import java.util.stream.IntStream;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @Service
-@PropertySource(value = "classpath:application.yaml", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:application.yml", ignoreResourceNotFound = true)
 public class InitDatabaseService_V1 {
   private static final Logger LOG = LoggerFactory.getLogger(CellServiceImpl.class);
 
@@ -76,7 +76,6 @@ public class InitDatabaseService_V1 {
     this.cellService = cellService;
     this.featuresService = featuresService;
     this.regionRepository = regionRepository;
-    this.loadBackGroundImages = Optional.ofNullable(filepath).isPresent();
   }
 
   @PostConstruct
@@ -84,6 +83,7 @@ public class InitDatabaseService_V1 {
     if (!initEnable) {
       return;
     }
+    this.loadBackGroundImages = Optional.ofNullable(filepath).isPresent();
     fillRegions(); // создать регионы
     createCells(); // создать клетки
   }

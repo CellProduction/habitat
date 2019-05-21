@@ -1,17 +1,5 @@
 FROM openjdk:8
-ADD build/libs/habitat-0.0.1-SNAPSHOT.jar habitat.jar
-EXPOSE 8085
+COPY build/libs/habitat-0.0.1-SNAPSHOT.jar habitat.jar
+EXPOSE $PORT
 
-ENV SERVER_PORT 8085
-ENV MONGODB_SERVER_HOST mongo
-ENV MONGODB_SERVER_PORT 27017
-ENV MONGODB_SERVER_USERNAME admin
-ENV MONGODB_SERVER_PASSWORD admin
-ENV MONGODB_SERVER_DATABASE mapDB
-
-ENV INIT_DB_ENABLE false
-ENV IMAGES_FILEPATH /usr/share/images
-
-VOLUME /usr/share
-
-ENTRYPOINT ["java", "-jar", "habitat.jar"]
+CMD ["java", "-Xmx384m", "-jar", "habitat.jar"]
