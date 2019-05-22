@@ -12,7 +12,6 @@ public class CellStateBuilder {
 
   private Cell cell;
   private CellFeatures features;
-  private CellState cellState;
 
   public Cell getCell() {
     return cell;
@@ -33,29 +32,28 @@ public class CellStateBuilder {
   }
 
   public CellState build() {
-    fillCellFields();
-    fillFeaturesFields();
+    CellState cellState = new CellState();
+    fillCellFields(cellState);
+    fillFeaturesFields(cellState);
     cell = null;
     features = null;
     return cellState;
   }
 
-  private CellStateBuilder fillCellFields() {
+  private CellStateBuilder fillCellFields(CellState cellState) {
     if (!Optional.ofNullable(cell).isPresent()) {
       return this;
     }
-    cellState = Optional.ofNullable(cellState).orElse(new CellState())
-        .setCellId(cell.getId())
+    cellState.setCellId(cell.getId())
         .setAddress(cell.getAddress());
     return this;
   }
 
-  private CellStateBuilder fillFeaturesFields() {
+  private CellStateBuilder fillFeaturesFields(CellState cellState) {
     if (!Optional.ofNullable(features).isPresent()) {
       return this;
     }
-    cellState = Optional.ofNullable(cellState).orElse(new CellState())
-        .setMovementRate(features.getMovementRate())
+    cellState.setMovementRate(features.getMovementRate())
         .setMovable(features.isMovable())
         .setFlightRate(features.getFlightRate())
         .setFlyable(features.isFlyable())
