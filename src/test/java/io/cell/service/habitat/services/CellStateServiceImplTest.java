@@ -81,9 +81,9 @@ public class CellStateServiceImplTest {
     return new CellFeatures()
         .setId(UUID.randomUUID())
         .setAddress(getTestAddress())
-        .setMovementRate(1)
+        .setMovementRate(1f)
         .setMovable(true)
-        .setFlightRate(1)
+        .setFlightRate(1f)
         .setFlyable(true)
         .setBackgroundImage(FAKE_IMAGE_FILE_NAME)
         .setPresentationImage(FAKE_IMAGE_FILE_NAME);

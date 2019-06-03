@@ -11,9 +11,9 @@ import java.util.UUID;
 public class CellState implements Comparable<CellState>{
   private UUID cellId;
   private Address address;
-  private Integer movementRate;
+  private Float movementRate;
   private Boolean movable;
-  private Integer flightRate;
+  private Float flightRate;
   private Boolean flyable;
   private String presentationImage;
   private String backgroundImage;
@@ -36,11 +36,11 @@ public class CellState implements Comparable<CellState>{
     return this;
   }
 
-  public Integer getMovementRate() {
+  public Float getMovementRate() {
     return movementRate;
   }
 
-  public CellState setMovementRate(Integer movementRate) {
+  public CellState setMovementRate(Float movementRate) {
     this.movementRate = movementRate;
     return this;
   }
@@ -54,11 +54,11 @@ public class CellState implements Comparable<CellState>{
     return this;
   }
 
-  public Integer getFlightRate() {
+  public Float getFlightRate() {
     return flightRate;
   }
 
-  public CellState setFlightRate(Integer flightRate) {
+  public CellState setFlightRate(Float flightRate) {
     this.flightRate = flightRate;
     return this;
   }
@@ -113,9 +113,7 @@ public class CellState implements Comparable<CellState>{
   public int hashCode() {
     int result = cellId.hashCode();
     result = 31 * result + address.hashCode();
-    result = 31 * result + (movementRate != null ? movementRate.hashCode() : 0);
     result = 31 * result + (movable != null ? movable.hashCode() : 0);
-    result = 31 * result + (flightRate != null ? flightRate.hashCode() : 0);
     result = 31 * result + (flyable != null ? flyable.hashCode() : 0);
     result = 31 * result + (presentationImage != null ? presentationImage.hashCode() : 0);
     result = 31 * result + (backgroundImage != null ? backgroundImage.hashCode() : 0);
