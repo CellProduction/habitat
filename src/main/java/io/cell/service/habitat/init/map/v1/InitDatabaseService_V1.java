@@ -54,7 +54,7 @@ public class InitDatabaseService_V1 {
   private static final int INITIAL_MAX_X = 40;
   private static final int INITIAL_MAX_Y = 30;
 
-  private static final int DEFAULT_MOVEMENT_RATE = 100;
+  private static final float DEFAULT_MOVEMENT_RATE = 1f;
   private static final String FILE_FORMAT = "jpg";
 
   @Value("${init.db.enable}")

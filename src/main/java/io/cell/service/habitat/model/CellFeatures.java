@@ -16,9 +16,9 @@ public class CellFeatures {
   private Address address;
   private ZonedDateTime startDateTime;
   private ZonedDateTime endDateTime;
-  private Integer movementRate;
+  private Float movementRate;
   private Boolean movable;
-  private Integer flightRate;
+  private Float flightRate;
   private Boolean flyable;
   private String presentationImage;
   private String backgroundImage;
@@ -59,11 +59,11 @@ public class CellFeatures {
     return this;
   }
 
-  public Integer getMovementRate() {
+  public Float getMovementRate() {
     return movementRate;
   }
 
-  public CellFeatures setMovementRate(Integer movementRate) {
+  public CellFeatures setMovementRate(Float movementRate) {
     this.movementRate = movementRate;
     return this;
   }
@@ -77,11 +77,11 @@ public class CellFeatures {
     return this;
   }
 
-  public Integer getFlightRate() {
+  public Float getFlightRate() {
     return flightRate;
   }
 
-  public CellFeatures setFlightRate(Integer flightRate) {
+  public CellFeatures setFlightRate(Float flightRate) {
     this.flightRate = flightRate;
     return this;
   }
@@ -135,9 +135,7 @@ public class CellFeatures {
     int result = id.hashCode();
     result = 31 * result + (startDateTime != null ? startDateTime.hashCode() : 0);
     result = 31 * result + (endDateTime != null ? endDateTime.hashCode() : 0);
-    result = 31 * result + movementRate;
     result = 31 * result + (movable ? 1 : 0);
-    result = 31 * result + flightRate;
     result = 31 * result + (flyable ? 1 : 0);
     return result;
   }
