@@ -4,16 +4,16 @@
 # Поскольку наши сервисы будут микро, то будем весь конфиг хранить в одном файле соответствующем сервису.
 ---
 server:
-  port: ${PORT} # Порт приложения
+  port: ${PORT:8085} # Порт приложения
 ---
 spring:
   data:
-    mongodb: # Параметры подключения к СУБД и к БД
-      host: ${MONGODB_SERVER_HOST}
-      port: ${MONGODB_SERVER_PORT}
-      database: ${MONGODB_SERVER_DATABASE}
-      username: ${MONGODB_SERVER_USERNAME}
-      password: ${MONGODB_SERVER_PASSWORD}
+    mongodb: # Параметры подключения к БД
+      uri: 'mongodb+srv://${MONGODB_SERVER_USERNAME:admin}:${MONGODB_SERVER_PASSWORD}@${MONGODB_CLUSTER_URI:localHost:27017}/${MONGODB_DB:mapDb}'
+      authentication-database: ${MONGODB_AUTH_DB:admin}
+      gridfs:
+        database: ${MONGODB_DB:mapDb}
+      uuid-representation: java_legacy
 ---
 management:
   endpoints:
@@ -31,6 +31,6 @@ management:
 ---
 init:
   db:
-    enable: ${INIT_DB_ENABLE}
+    enable: ${INIT_DB_ENABLE:false}
     images:
       filepath: ${IMAGES_FILEPATH}
